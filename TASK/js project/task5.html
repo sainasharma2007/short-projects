@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple To-Do List</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      margin-top: 220px;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 0 10px gray;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 60%;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .btns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .taskItem {
+      background-color: #eee;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    /* Task name */
+    .taskItem b {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    /* Description styling */
+    .taskItem small {
+      display: block;
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 12px; /* adds space between description and buttons */
+    }
+
+    /* Buttons inside each task */
+    .taskItem button {
+      background-color: #f44336;
+      margin-right: 8px;
+      padding: 6px 10px;
+      border-radius: 5px;
+    }
+
+    .taskItem button:hover {
+      background-color: #d63031;
+    }
+
+    .taskItem button.edit {
+      background-color: #2196F3;
+    }
+
+    .taskItem button.edit:hover {
+      background-color: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>To-Do List</h2>
+
+    <div class="btns">
+      <input type="text" id="taskInput" placeholder="Enter task">
+      <button id="addBtn">Add</button>
+      <button id="deleteAllBtn">Delete All</button>
+    </div>
+
+    <input type="text" id="descInput" placeholder="Enter description">
+
+    <div id="taskList"></div>
+  </div>
+
+  <script>
+    const addBtn = document.getElementById("addBtn");
+    const deleteAllBtn = document.getElementById("deleteAllBtn");
+    const taskList = document.getElementById("taskList");
+
+    addBtn.onclick = function() {
+      const task = document.getElementById("taskInput").value;
+      const desc = document.getElementById("descInput").value;
+
+      if (task === "") {
+        alert("Please enter a task!");
+        return;
+      }
+
+      const box = document.createElement("div");
+      box.className = "taskItem";
+      box.innerHTML = `
+        <b>${task}</b>
+        <small>${desc}</small>
+        <button class="deleteBtn">Delete</button>
+        <button class="edit editBtn">Edit</button>
+      `;
+      taskList.appendChild(box);
+
+      // clear input fields
+      document.getElementById("taskInput").value = "";
+      document.getElementById("descInput").value = "";
+
+      // delete single task
+      box.querySelector(".deleteBtn").onclick = function() {
+        box.remove();
+      };
+
+      // edit task
+      box.querySelector(".editBtn").onclick = function() {
+        const newTask = prompt("Edit task:", box.querySelector("b").innerText);
+        const newDesc = prompt("Edit description:", box.querySelector("small").innerText);
+        if (newTask) box.querySelector("b").innerText = newTask;
+        if (newDesc) box.querySelector("small").innerText = newDesc;
+      };
+    };
+
+    deleteAllBtn.onclick = function() {
+      taskList.innerHTML = "";
+    };
+  </script>
+</body>
+</html>
+
+
+
